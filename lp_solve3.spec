@@ -3,7 +3,7 @@ Summary(pl):	Biblioteka i narzêdzie do rozwi±zywania problemu programowania lini
 Name:		lp_solve3
 %define	rname	lp_solve
 Version:	3.2
-Release:	3
+Release:	4
 License:	LGPL
 Group:		Libraries
 Source0:	ftp://ftp.ics.ele.tue.nl/pub/lp_solve/%{rname}_%{version}.tar.gz
@@ -28,7 +28,7 @@ liniowego przy u¿yciu algorytmu Simplex.
 Summary:	liblpk header files
 Summary(pl):	Pliki nag³ówkowe biblioteki liblpk
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	lp_solve-devel < 4
 
 %description devel
@@ -41,7 +41,7 @@ Pliki nag³ówkowe biblioteki liblpk.
 Summary:	Static liblpk library
 Summary(pl):	Statyczna biblioteka liblpk
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	lp_solve-static < 4
 
 %description static
@@ -58,13 +58,15 @@ Statyczna biblioteka liblpk.
 %build
 %{__make} -f Makefile.linux \
 	CC="%{__cc}" \
-	OPT="%{rpmcflags}"
+	OPT="%{rpmcflags}" \
+	libdir=%{_libdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install -f Makefile.linux \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	libdir=%{_libdir}
 
 rm -f lp_examples/*.{out,mps}
 
