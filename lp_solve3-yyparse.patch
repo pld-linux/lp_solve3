@@ -1,0 +1,25 @@
+--- lp_solve_3.2/lpkit.h.orig	Tue Jan 16 11:29:12 2001
++++ lp_solve_3.2/lpkit.h	Wed Mar 19 23:35:12 2003
+@@ -466,10 +466,6 @@
+ void presolve(lprec *lp);
+ 
+ 
+-/* define yyparse() to make compilers happy. There should be some system
+-   include file for this */
+-int yyparse(void);
+-
+ #ifdef __cplusplus
+ };
+ #endif
+--- lp_solve_3.2/read.c.orig	Tue Jan 16 11:29:12 2001
++++ lp_solve_3.2/read.c	Wed Mar 19 23:36:21 2003
+@@ -45,6 +45,9 @@
+ 
+ #define HASHSIZE  10007 /* prime number is better, MB */
+ 
++/* extern, moved from lpkit.h, where it shouldn't be */
++int yyparse(void);
++
+ /*
+  * errorhandeling routine for yyparse()
+  */

@@ -1,0 +1,93 @@
+--- lp_solve_3.2/Makefile.linux.orig	Tue Jan 16 11:29:13 2001
++++ lp_solve_3.2/Makefile.linux	Sun Dec  8 20:01:47 2002
+@@ -9,7 +9,7 @@
+ #CFLAGS= -g -Aa -D_POSIX_SOURCE -DCHECK +FP VZOUiD
+ 
+ # nice for gcc
+-CFLAGS= -O3 -Wall -pedantic -ansi
++CFLAGS= $(OPT) -Wall -pedantic -ansi
+ #CFLAGS= -g -Wall -pedantic -ansi
+ 
+ # Option -DCHECK checks for numerical problems during rounding of numbers.
+@@ -41,48 +41,56 @@
+ #non-ANSI math lib, should also work
+ MATHLIB= -lm
+ 
++prefix = /usr
++bindir = $(prefix)/bin
++libdir = $(prefix)/lib
++includedir = $(prefix)/include/lp_solve
++mandir = $(prefix)/share/man
++
+ LPKSRC.c= lpkit.c solve.c debug.c read.c readmps.c hash.c presolve.c
+ LEXFILE.l= lex.l
+ YACCFILE.y= lp.y
+ TESTFILES= lp_examples/ex1.lp lp_examples/ex2.lp lp_examples/ex3.lp lp_examples/ex4.lp lp_examples/ex5.lp lp_examples/ex6.lp lp_examples/ex7.lp
+ 
+ TARGET=lp_solve
+-LPKLIB=liblpk.a
++LPKLIB=liblpk.la
+ 
+ LEXFILE.c= $(LEXFILE.l:.l=.c)
+ YACCFILE.c= $(YACCFILE.y:.y=.c)
+-YACCFILE.o= $(YACCFILE.y:.y=.o)
++YACCFILE.o= $(YACCFILE.y:.y=.lo)
+ CSOURCES=lpkit.c solve.c debug.c read.c readmps.c lp_solve.c demo.c hash.c presolve.c $(LEXFILE.c) $(YACCFILE.c)
+-COBJ=$(CSOURCES:.c=.o)
++COBJ=$(CSOURCES:.c=.lo)
+ LPKSRC= $(LPKSRC.c) $(YACCFILE.c)
+-LPKOBJ= $(LPKSRC:.c=.o)
++LPKOBJ= $(LPKSRC:.c=.lo)
+ HEADERS=lpkit.h lpglob.h patchlevel.h debug.h read.h hash.h
+ 
+ all:	demo $(TARGET) lp2mps mps2lp
+ 
+ $(COBJ): $(HEADERS)
+ 
++%.lo: %.c
++	libtool --mode=compile $(CC) $(CFLAGS) -c $< -o $@
++
+ demo:	demo.o $(LPKLIB)
+-	$(CC) -o demo $(CFLAGS) demo.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	libtool --mode=link $(CC) -o demo $(CFLAGS) demo.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ lp2mps:	lp2mps.o $(LPKLIB)
+-	$(CC) -o lp2mps $(CFLAGS) lp2mps.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	libtool --mode=link $(CC) -o lp2mps $(CFLAGS) lp2mps.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ mps2lp: mps2lp.o $(LPKLIB)
+-	$(CC) -o mps2lp $(CFLAGS) mps2lp.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	libtool --mode=link $(CC) -o mps2lp $(CFLAGS) mps2lp.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ $(TARGET): lp_solve.o $(LPKLIB)
+-	$(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	libtool --mode=link $(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ purify: lp_solve.o $(LPKLIB)
+-	purify $(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	purify libtool --mode=link $(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ quantify: lp_solve.o $(LPKLIB)
+-	quantify $(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
++	quantify libtool --mode=link $(CC) -o $(TARGET) $(CFLAGS) lp_solve.o $(LPKLIB) $(LEXLIB) $(MATHLIB)
+ 
+ $(LPKLIB): $(LPKOBJ)
+-	ar rv $@ $(LPKOBJ)
+-	ranlib $(LPKLIB)
++	libtool --mode=link $(CC) -o $(LPKLIB) $(LPKOBJ) -rpath $(libdir)
+ 
+ $(YACCFILE.o): $(LEXFILE.c)
+ 
+@@ -119,3 +127,12 @@
+ 
+ TAGS:
+ 	etags *.[chyl]
++
++install: all
++	install -d $(DESTDIR)$(libdir) $(DESTDIR)$(includedir) $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(bindir)
++	libtool --mode=install install $(LPKLIB) $(DESTDIR)$(libdir)
++	libtool --mode=install install $(TARGET) $(DESTDIR)$(bindir)
++	libtool --mode=install install lp2mps $(DESTDIR)$(bindir)
++	libtool --mode=install install mps2lp $(DESTDIR)$(bindir)
++	install $(HEADERS) $(DESTDIR)$(includedir)
++	install $(TARGET).1 $(DESTDIR)$(mandir)/man1
