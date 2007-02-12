@@ -1,5 +1,5 @@
 Summary:	Library and tool that solves linear programming problem
-Summary(pl):	Biblioteka i narzêdzie do rozwi±zywania problemu programowania liniowego
+Summary(pl.UTF-8):   Biblioteka i narzÄ™dzie do rozwiÄ…zywania problemu programowania liniowego
 Name:		lp_solve3
 %define	rname	lp_solve
 Version:	3.2
@@ -20,13 +20,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Library and tool that solves linear programming problem using Simplex
 algorithm.
 
-%description -l pl
-Biblioteka i narzêdzie do rozwi±zywania problemu programowania
-liniowego przy u¿yciu algorytmu Simplex.
+%description -l pl.UTF-8
+Biblioteka i narzÄ™dzie do rozwiÄ…zywania problemu programowania
+liniowego przy uÅ¼yciu algorytmu Simplex.
 
 %package devel
 Summary:	liblpk header files
-Summary(pl):	Pliki nag³ówkowe biblioteki liblpk
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki liblpk
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	lp_solve-devel < 4
@@ -34,12 +34,12 @@ Obsoletes:	lp_solve-devel < 4
 %description devel
 liblpk header files.
 
-%description devel -l pl
-Pliki nag³ówkowe biblioteki liblpk.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe biblioteki liblpk.
 
 %package static
 Summary:	Static liblpk library
-Summary(pl):	Statyczna biblioteka liblpk
+Summary(pl.UTF-8):   Statyczna biblioteka liblpk
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	lp_solve-static < 4
@@ -47,7 +47,7 @@ Obsoletes:	lp_solve-static < 4
 %description static
 Static liblpk library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna biblioteka liblpk.
 
 %prep
