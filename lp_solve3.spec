@@ -1,5 +1,5 @@
 Summary:	Library and tool that solves linear programming problem
-Summary(pl.UTF-8):   Biblioteka i narzędzie do rozwiązywania problemu programowania liniowego
+Summary(pl.UTF-8):	Biblioteka i narzędzie do rozwiązywania problemu programowania liniowego
 Name:		lp_solve3
 %define	rname	lp_solve
 Version:	3.2
@@ -26,7 +26,7 @@ liniowego przy użyciu algorytmu Simplex.
 
 %package devel
 Summary:	liblpk header files
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki liblpk
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki liblpk
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	lp_solve-devel < 4
@@ -39,7 +39,7 @@ Pliki nagłówkowe biblioteki liblpk.
 
 %package static
 Summary:	Static liblpk library
-Summary(pl.UTF-8):   Statyczna biblioteka liblpk
+Summary(pl.UTF-8):	Statyczna biblioteka liblpk
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	lp_solve-static < 4
