@@ -52,8 +52,8 @@ Statyczna biblioteka liblpk.
 
 %prep
 %setup -q -n %{rname}_%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__make} -f Makefile.linux \
